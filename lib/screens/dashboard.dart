@@ -1,3 +1,7 @@
+import 'package:fleet_management/model/dataListModel.dart';
+import 'package:fleet_management/components/schedule_block.dart';
+import 'package:fleet_management/components/schedule_list.dart';
+import 'package:fleet_management/components/schedule_time_block.dart';
 import 'package:flutter/material.dart';
 
 class DashBoard extends StatefulWidget {
@@ -11,10 +15,182 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
 
   String selectedDate;
-  List months =
+  List<String> months =
   ['January', 'February', 'March', 'April', 'May','June','July','August','September','October','November','December'];
 
+  List<ScheduleWeekListModel> weekList=[];
+  List<ScheduleBlock> blocks=[];
 
+  List<Map<String,dynamic>> dataList=[
+    {
+      'start_week_date':'01/07/2020',
+      'end_week_date':'01/13/2020',
+      'schedule':{
+        'MON':{
+          '08':[
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'11:00 AM - 03:00 PM'
+            }
+          ]
+        },
+        'WED':{
+          '09':[
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'11:00 AM - 03:00 PM'
+            }
+          ]
+        },
+        'FRI':{
+          '11':[
+            {
+              'label_text':'DishWasher',
+              'active':'1',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+          ],
+        },
+      },
+    },
+    {
+      'start_week_date':'01/15/2020',
+      'end_week_date':'01/21/2020',
+      'schedule':{
+        'MON':{
+          '16':[
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'11:00 AM - 03:00 PM'
+            }
+          ]
+        },
+        'WED':{
+          '18':[
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'11:00 AM - 03:00 PM'
+            }
+          ]
+        },
+        'FRI':{
+          '19':[
+            {
+              'label_text':'DishWasher',
+              'active':'1',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+          ],
+        },
+      },
+    },
+    {
+      'start_week_date':'01/29/2020',
+      'end_week_date':'02/04/2020',
+      'schedule':{
+        'MON':{
+          '30':[
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'11:00 AM - 03:00 PM'
+            }
+          ]
+        },
+        'WED':{
+          '01':[
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+            {
+              'label_text':'Server',
+              'active':'0',
+              'time_slot':'11:00 AM - 03:00 PM'
+            }
+          ]
+        },
+        'FRI':{
+          '03':[
+            {
+              'label_text':'DishWasher',
+              'active':'1',
+              'time_slot':'6:00 AM - 11:00 AM'
+            },
+          ],
+        },
+      },
+    },
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    getList();
+  }
+
+  void getList(){
+    for(var data in dataList){
+      weekList.add(
+        ScheduleWeekListModel.fromJson(data),
+      );
+    }
+    for(var week in weekList){
+      List<ScheduleListBlock> listBlock=[];
+      for (var day in week.scheduleDayListModel) {
+        List<ScheduleTimeBlock> timeSlotList=[];
+        for (var time in day.timeSlotListModel) {
+          timeSlotList.add(ScheduleTimeBlock(
+            labelText: time.labelText,
+            status: time.status,
+            timeSlot: time.timeSlot,
+          ));
+        }
+        listBlock.add(
+          ScheduleListBlock(
+            day: day.day,
+            weekDay: day.weekDay,
+            timeSlotList: timeSlotList,
+          ),
+        );
+      }
+      blocks.add(ScheduleBlock(
+        startDate: week.startDate,
+        endDate: week.endDate,
+        listBlock: listBlock,
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,48 +287,14 @@ class _DashBoardState extends State<DashBoard> {
                   color: Colors.white,
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),topRight: Radius.circular(20.0)),
                 ),
-                child: ScheduleBlock(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ScheduleBlock extends StatelessWidget {
-  const ScheduleBlock({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Row(
-              children: <Widget>[
-                Expanded(
-                    child: Divider(
-                      thickness: 2.0,
-                    ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Text(
-                    "Week of 01/15/2020 - 01/21/2020",
-                    style: TextStyle(
-                      color: Colors.blue[500],
-                      fontWeight: FontWeight.bold
-                    ),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: ListView(
+                    children: blocks,
                   ),
                 ),
-                Expanded(
-                    child: Divider(
-                      thickness: 2.0,
-                    ),
-                ),
-              ]
+              ),
+            ),
           ),
         ],
       ),

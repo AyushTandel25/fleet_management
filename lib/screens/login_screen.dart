@@ -1,5 +1,5 @@
-import 'package:fleet_management/InputFormField.dart';
-import 'package:fleet_management/dashboard.dart';
+import 'package:fleet_management/components/InputFormField.dart';
+import 'package:fleet_management/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';

@@ -1,6 +1,6 @@
-import 'package:fleet_management/dashboard.dart';
-import 'package:fleet_management/login_screen.dart';
-import 'package:fleet_management/splash_screen.dart';
+import 'package:fleet_management/screens/dashboard.dart';
+import 'package:fleet_management/screens/login_screen.dart';
+import 'package:fleet_management/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 
