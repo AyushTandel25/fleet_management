@@ -4,24 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-
 class LoginScreen extends StatefulWidget {
-
-  static String id="/LoginScreen";
+  static String id = "/LoginScreen";
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  Color clr=Colors.grey[200];
-  String countryCode,passWord,userId;
-  bool visibility=true;
-  bool showSpiner=false;
-  final controller=TextEditingController();
-  final _loginFormKey=GlobalKey<FormState>();
+  Color clr = Colors.grey[200];
+  String countryCode, passWord, userId;
+  bool visibility = true;
+  bool showSpiner = false;
+  final controller = TextEditingController();
+  final _loginFormKey = GlobalKey<FormState>();
 
-  void hideKb(){
+  void hideKb() {
     FocusScope.of(context).unfocus();
   }
 
@@ -30,19 +28,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            "Login",
+          "Login",
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Colors.blue[800],
-                Colors.lightBlue[500],
-                Colors.blue[200],
-              ]
-            ),
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Colors.blue[800],
+                  Colors.lightBlue[500],
+                  Colors.blue[200],
+                ]),
           ),
         ),
       ),
@@ -59,53 +56,64 @@ class _LoginScreenState extends State<LoginScreen> {
                     Hero(
                       tag: 'logoAnimation',
                       child: Image.asset(
-                        "assets/images/dart_logo.png",
-                        height: 200.0,
-                        width: 200.0,
+                        "assets/images/fleet.png",
+                        // height: 200.0,
+                        // width: 200.0,
                       ),
                     ),
                     SizedBox(
                       height: 20.0,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: InputFormField(
                         validator: MultiValidator([
                           RequiredValidator(
-                            errorText: "Please Enter UserID",
+                            errorText: "Please Enter Username",
                           ),
                         ]),
+                        prefixIcon: Icon(
+                          Icons.verified_user,
+                          color: Colors.lightBlueAccent,
+                        ),
                         textInputAction: TextInputAction.next,
-                        onChanged: (value){
-                          userId=value;
+                        onChanged: (value) {
+                          userId = value;
                         },
-                        hintText: "Enter UserID",
+                        hintText: "Username",
                         keyboardType: TextInputType.emailAddress,
                         obscureText: false,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0,vertical: 20.0),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
                       child: Column(
                         children: [
                           InputFormField(
                             validator: MultiValidator([
-                              RequiredValidator(errorText: "Please Enter Password"),
+                              RequiredValidator(
+                                  errorText: "Please Enter Password"),
                             ]),
-                            prefixIcon: Icon(Icons.lock,color: Colors.lightBlueAccent,),
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: Colors.lightBlueAccent,
+                            ),
                             obscureText: visibility,
-                            hintText: "Enter Password",
+                            hintText: "Password",
                             suffixIcon: IconButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
-                                  visibility=!visibility;
+                                  visibility = !visibility;
                                 });
                               },
-                              icon: visibility ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                              icon: visibility
+                                  ? Icon(Icons.visibility)
+                                  : Icon(Icons.visibility_off),
                               color: Colors.black,
                             ),
-                            onSave: (value){
-                              passWord=value;
+                            onSave: (value) {
+                              passWord = value;
                             },
                             textInputAction: TextInputAction.done,
                             maxLines: 1,
@@ -114,43 +122,41 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 10.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: TextButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.lightBlueAccent),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.lightBlueAccent),
+                          shape:
+                              MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
                           )),
                         ),
                         onPressed: () async {
                           setState(() {
-                            showSpiner=true;
+                            showSpiner = true;
                           });
-                          var form=_loginFormKey.currentState;
-                          if(form.validate()) {
+                          var form = _loginFormKey.currentState;
+                          if (form.validate()) {
                             form.save();
                             hideKb();
                             await Future.delayed(Duration(seconds: 1));
                             setState(() {
-                              showSpiner=false;
+                              showSpiner = false;
                             });
                             Navigator.pushNamed(context, DashBoard.id);
-                          }
-                          else{
+                          } else {
                             setState(() {
-                              showSpiner=false;
+                              showSpiner = false;
                             });
                           }
                         },
                         child: Text(
                           "Login",
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color:Colors.white
-                          ),
+                          style: TextStyle(fontSize: 16.0, color: Colors.white),
                         ),
                       ),
                     ),
