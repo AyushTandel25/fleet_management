@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   getSplashTransition() async{
-    Future.delayed(Duration(seconds: 2)).whenComplete(() =>
+    Future.delayed(Duration(seconds: 4)).whenComplete(() =>
       Navigator.pushReplacementNamed(context, LoginScreen.id),
     );
   }
@@ -34,22 +34,22 @@ class _SplashScreenState extends State<SplashScreen> {
           Hero(
             tag: 'logoAnimation',
             child: Image.asset(
-              'assets/images/dart_logo.png',
-              height: 300.0,
-              width: 300.0,
+              'assets/images/fleet.png',
+              // height: 200.0,
+              // width: 200.0,
             ),
           ),
           SizedBox(
             height: 20.0,
           ),
-          Text(
-            "Schedule App",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 42.0,
-                fontWeight: FontWeight.w500,
-            ),
-          ),
+          // Text(
+          //   "Fleet Management",
+          //   textAlign: TextAlign.center,
+          //   style: TextStyle(
+          //       fontSize: 16.0,
+          //       fontWeight: FontWeight.w500,
+          //   ),
+          // ),
         ],
       ),
     );
