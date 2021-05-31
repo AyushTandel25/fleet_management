@@ -219,6 +219,9 @@ class _DashBoardState extends State<DashBoard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          SizedBox(
+                            height: 16.0,
+                          ),
                           Text(
                             "My Schedule",
                             style: TextStyle(
@@ -274,10 +277,10 @@ class _DashBoardState extends State<DashBoard> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            padding: EdgeInsets.symmetric(horizontal: 4.0),
             child: Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)
+                borderRadius: BorderRadius.circular(16.0)
               ),
               elevation: 2.0,
               child: Container(
