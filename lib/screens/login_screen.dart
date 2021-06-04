@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:fleet_management/components/InputFormField.dart';
+import 'package:fleet_management/model/sign_in_model.dart';
 import 'package:fleet_management/screens/dashboard.dart';
+import 'package:fleet_management/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:fleet_management/repository/user_repository.dart' as userRp;
 
 class LoginScreen extends StatefulWidget {
   static String id = "/LoginScreen";
@@ -15,12 +20,41 @@ class _LoginScreenState extends State<LoginScreen> {
   Color clr = Colors.grey[200];
   String countryCode, passWord, userId;
   bool visibility = true;
-  bool showSpiner = false;
+  bool showSpinner = false;
   final controller = TextEditingController();
+  SignInModel signInModel;
   final _loginFormKey = GlobalKey<FormState>();
 
   void hideKb() {
     FocusScope.of(context).unfocus();
+  }
+
+  loginProcess() async {
+    setState(() {
+      showSpinner = true;
+    });
+    var form = _loginFormKey.currentState;
+    if (form.validate()) {
+      form.save();
+      hideKb();
+      var response = await signUser(userId, passWord, true);
+      signInModel = SignInModel.fromJson(response);
+      if (signInModel.userId != null) {
+        setState(() {
+          showSpinner = false;
+        });
+        userRp.setCurrentUser(jsonEncode(response));
+        userRp.currentUser.value=signInModel;
+        userRp.currentUser.notifyListeners();
+        if(userRp.currentUser.value.userId!=null){
+          Navigator.pushReplacementNamed(context, DashBoard.id);
+        }
+      }
+    } else {
+      setState(() {
+        showSpinner = false;
+      });
+    }
   }
 
   @override
@@ -46,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Center(
           child: ModalProgressHUD(
-            inAsyncCall: showSpiner,
+            inAsyncCall: showSpinner,
             child: SingleChildScrollView(
               child: Form(
                 key: _loginFormKey,
@@ -136,23 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           )),
                         ),
                         onPressed: () async {
-                          setState(() {
-                            showSpiner = true;
-                          });
-                          var form = _loginFormKey.currentState;
-                          if (form.validate()) {
-                            form.save();
-                            hideKb();
-                            await Future.delayed(Duration(seconds: 1));
-                            setState(() {
-                              showSpiner = false;
-                            });
-                            Navigator.pushNamed(context, DashBoard.id);
-                          } else {
-                            setState(() {
-                              showSpiner = false;
-                            });
-                          }
+                          loginProcess();
                         },
                         child: Text(
                           "Login",
