@@ -28,3 +28,26 @@ Future signUser(String userName,String password,bool isAdmin) async{
     return null;
   }
 }
+
+Future getSchedule(String startTime,String endTime,String userId) async{
+  http.Response response=await http.post(
+    Uri.parse(urlGetSchedule),
+    headers: {
+      "Accept": "application/json",
+      "content-type":"application/json"
+    },
+    body: jsonEncode(
+        {
+          "UserId":userId,
+          "BeginTime":startTime,
+          "endTime":endTime,
+        }
+    ),
+  );
+  if(response.statusCode==200){
+    return jsonDecode(response.body);
+  }
+  else{
+    return null;
+  }
+}

@@ -5,9 +5,10 @@ class ScheduleListBlock extends StatelessWidget {
 
   final String weekDay;
   final String day;
-  final List<ScheduleTimeBlock> timeSlotList;
+  final String labelText;
+  final String timeSlot;
 
-  const ScheduleListBlock({Key key, this.weekDay, this.day, this.timeSlotList}) : super(key: key);
+  const ScheduleListBlock({Key key, this.weekDay, this.day, this.timeSlot,this.labelText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class ScheduleListBlock extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
@@ -54,8 +55,10 @@ class ScheduleListBlock extends StatelessWidget {
             flex: 3,
             child: Padding(
               padding: EdgeInsets.all(10.0),
-              child: Column(
-                children: timeSlotList,
+              child: ScheduleTimeBlock(
+                labelText: labelText,
+                timeSlot: timeSlot,
+                status: "2",
               ),
             ),
           ),

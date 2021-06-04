@@ -31,7 +31,7 @@ class ScheduleTimeBlock extends StatelessWidget {
                       width: 10.0,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: status=="1" ? Colors.lightGreenAccent.shade700 : Colors.purple,
+                          color: status=="1" ? Colors.lightGreenAccent.shade700 : Colors.black,
                       ),
                     ),
                     SizedBox(
