@@ -33,7 +33,7 @@ class _DashBoardState extends State<DashBoard> {
   void initState() {
     super.initState();
     date=DateTime.now();
-    getList(DateTime.now());
+    getList(date);
   }
 
   Future getDates(DateTime date) async{
@@ -72,7 +72,7 @@ class _DashBoardState extends State<DashBoard> {
     return arrangedDate;
   }
 
-  void getList(DateTime date) async{
+  Future getList(DateTime date) async{
     blocks.clear();
     scheduleDataList.clear();
     setState(() {
@@ -104,11 +104,12 @@ class _DashBoardState extends State<DashBoard> {
           ));
         }
       });
+      print(blocks);
     }
   }
 
   String getWeekDay(DateTime date,int day){
-    int weekDay=day-date.weekday;
+    int weekDay=day-date.weekday+1;
     return weekDays[weekDay];
   }
 
@@ -222,7 +223,7 @@ class _DashBoardState extends State<DashBoard> {
                     padding: EdgeInsets.all(10.0),
                     child: blocks.isNotEmpty ? ListView(
                       children: blocks,
-                    ) : Center(child: Text("No Schedule")),
+                    ) : Center(child: Container(child: Text("No Schedule"),),),
                   ),
                 ),
               ),
