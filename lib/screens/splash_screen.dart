@@ -1,5 +1,7 @@
+import 'package:fleet_management/screens/dashboard.dart';
 import 'package:fleet_management/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fleet_management/repository/user_repository.dart' as userRp;
 
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +22,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getSplashTransition() async{
     Future.delayed(Duration(seconds: 4)).whenComplete(() =>
-      Navigator.pushReplacementNamed(context, LoginScreen.id),
+      userRp.getCurrentUser().whenComplete((){
+        if(userRp.currentUser.value.userId!=null){
+          Navigator.pushReplacementNamed(context, DashBoard.id);
+        }
+        else{
+          Navigator.pushReplacementNamed(context, LoginScreen.id);
+        }
+      })
     );
   }
 
