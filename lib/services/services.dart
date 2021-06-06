@@ -40,7 +40,7 @@ Future getSchedule(String startTime,String endTime,String userId) async{
         {
           "UserId":userId,
           "BeginTime":startTime,
-          "endTime":endTime,
+          "EndTime":endTime,
         }
     ),
   );
