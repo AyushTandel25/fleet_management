@@ -32,6 +32,7 @@ class _DashBoardState extends State<DashBoard> {
   String startTime;
   String cuurentStatus;
   String endTime;
+  bool _isVisible = true;
   bool isEnabled = true;
 
   DateTime startDate, endDate, date;
@@ -190,8 +191,9 @@ class _DashBoardState extends State<DashBoard> {
           });
           print(blocks);
         }
-      }else{
+      } else {
         setState(() {
+          _isVisible = false;
           isEnabled = false;
         });
       }
@@ -398,63 +400,73 @@ class _DashBoardState extends State<DashBoard> {
                                 ),
                               ),
                       ),
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          // padding: EdgeInsets.all(0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(
-                                width: 130, // <-- Your width
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.blue[500]),
-                                    shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                    )),
-                                  ),
-                                  child: Text(
-                                      AppTranslations.of(context)
-                                          .text("btn_accept"),
-                                      style: TextStyle(
-                                          fontSize: 16.0, color: Colors.white)),
-                                  onPressed: isEnabled ?() => updateScheduleStatus("Accept") : null,
-                                  // {
-                                  //   if (cuurentStatus == "Read")
-                                  //     updateScheduleStatus("Accept");
-                                  // },
-                                ),
-                              ),
-                              SizedBox(width: 16),
-                              SizedBox(
-                                width: 130, // <-- Your width
-                                child: TextButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.red[500]),
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                      )),
+                      Visibility(
+                          visible: _isVisible,
+                          child: Align(
+                              alignment: Alignment.bottomCenter,
+                              // padding: EdgeInsets.all(0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 130, // <-- Your width
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.blue[500]),
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                        )),
+                                      ),
+                                      child: Text(
+                                          AppTranslations.of(context)
+                                              .text("btn_accept"),
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              color: Colors.white)),
+                                      onPressed: isEnabled
+                                          ? () => updateScheduleStatus("Accept")
+                                          : null,
+                                      // {
+                                      //   if (cuurentStatus == "Read")
+                                      //     updateScheduleStatus("Accept");
+                                      // },
                                     ),
-                                    child: Text(
-                                        AppTranslations.of(context)
-                                            .text("btn_decline"),
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            color: Colors.white)),
-                                    onPressed: isEnabled ?() => updateScheduleStatus("Reject") : null,
-                                    /*{
+                                  ),
+                                  SizedBox(width: 16),
+                                  SizedBox(
+                                    width: 130, // <-- Your width
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.red[500]),
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                        )),
+                                      ),
+                                      child: Text(
+                                          AppTranslations.of(context)
+                                              .text("btn_decline"),
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              color: Colors.white)),
+                                      onPressed: isEnabled
+                                          ? () => updateScheduleStatus("Reject")
+                                          : null,
+                                      /*{
                                       if (cuurentStatus == "Read")
                                         updateScheduleStatus("Reject");
-                                    }*/),
-                              ),
-                            ],
-                          ))
+                                    }*/
+                                    ),
+                                  ),
+                                ],
+                              )))
                     ])
                     //   Padding(
                     //   padding: EdgeInsets.all(4.0),
