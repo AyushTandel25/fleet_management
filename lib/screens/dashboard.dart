@@ -156,7 +156,8 @@ class _DashBoardState extends State<DashBoard> {
     setState(() {
       spinner = false;
     });
-    if (response.isNotEmpty) {
+    if (response.length !=0) {
+      _isVisible = true;
       scheduleListModel = ScheduleListModel.fromList(response);
       for (var data in scheduleListModel.scheduleList) {
         scheduleDataList.add(data);
@@ -165,12 +166,14 @@ class _DashBoardState extends State<DashBoard> {
         cuurentStatus = scheduleDataList.first.status;
         if (cuurentStatus == "Accept" || cuurentStatus == "Reject") {
           setState(() {
+            _isVisible = true;
             isEnabled = false;
           });
         }
         if (cuurentStatus == "New") {
           updateScheduleStatus("Read");
           setState(() {
+            _isVisible = true;
             isEnabled = true;
           });
         } else {
@@ -191,12 +194,12 @@ class _DashBoardState extends State<DashBoard> {
           });
           print(blocks);
         }
-      } else {
-        setState(() {
-          _isVisible = false;
-          isEnabled = false;
-        });
       }
+    }else{
+      setState(() {
+        _isVisible = false;
+        isEnabled = false;
+      });
     }
   }
 
@@ -209,7 +212,7 @@ class _DashBoardState extends State<DashBoard> {
     print('updateScheduleStatus>>>' + startTime);
     print('updateScheduleStatus>>>' + endTime);
     print('updateScheduleStatus>>>' + userRp.currentUser.value.userId);
-    print('updateScheduleStatus>>>' + userRp.currentUser.value.userId);
+    print('updateScheduleStatus>>>' + status);
     var response = await updateStatus(
         startTime,
         endTime,
@@ -414,7 +417,7 @@ class _DashBoardState extends State<DashBoard> {
                                       style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(
-                                                Colors.blue[500]),
+                                                isEnabled? Colors.blue[500] : Colors.grey[500]),
                                         shape: MaterialStateProperty.all(
                                             RoundedRectangleBorder(
                                           borderRadius:
@@ -443,7 +446,7 @@ class _DashBoardState extends State<DashBoard> {
                                       style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(
-                                                Colors.red[500]),
+                                                isEnabled? Colors.red[500] : Colors.grey[500]),
                                         shape: MaterialStateProperty.all(
                                             RoundedRectangleBorder(
                                           borderRadius:
